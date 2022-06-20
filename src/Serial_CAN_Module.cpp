@@ -194,8 +194,6 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
         while(serialDataAvail(_fd))
         {
 
-            printf("data avail\n");
-
             //str_tmp[len++] = canSerial->read();
             str_tmp[len++] = serialGetchar(_fd); 
 
@@ -224,7 +222,7 @@ unsigned char Serial_CAN::canRate(unsigned char rate)
         sprintf(str_tmp, "AT+C=%d\r\n", rate);
     
     int ret = cmdOk(str_tmp);
-    
+    printf("ppp\n");
     exitSettingMode();
     return ret;
 }
@@ -334,6 +332,11 @@ unsigned char Serial_CAN::exitSettingMode()
     clear();
     int ret = cmdOk((char*)"AT+Q\r\n");
     clear();
+
+    if (ret==0) {
+        printf("Failure exiting settings\n"); 
+    }
+
     return ret;
 }
 
