@@ -168,7 +168,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
     serialPrintf(_fd, cmd);
     // Do we need an EXTRA \n termination? look slike its already in the commands
     // Unclear if need this 
-    serialPrintf("\n");
+    serialPrintf(_fd, "\n");
 
 
     while(1)
