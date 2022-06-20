@@ -25,6 +25,9 @@ void Serial_CAN::begin(unsigned long baud)
     if (wiringPiSetup() == -1) {
         printf("wiring pi failure\n");
     }
+
+
+    serialFlush(_fd);
 }
 
 /*
@@ -141,7 +144,9 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
     }
     */
 
-    if (serialDataAvail(_fd))  { // EREZ 
+    int nbytes = serialDataAvail(_fd);
+
+    if (nbytes == 12)  { // EREZ 
         // read 12 byes
         uchar dta[20];
         read(_fd, dta, 12); 
@@ -160,9 +165,10 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
             buf[i] = dta[i+4];
         }
         return 1;
-
+    } else if (nbytes > 0) {
+        printf("Only %d byes AVAILABLE\n", nbytes);
     } else {
-        printf("NO SERIAL AVAILABLE");
+        printf("NO SERIAL AVAILABLE\n");
         return 0;
     }
 }
@@ -297,9 +303,15 @@ void Serial_CAN::selfBaudRate(unsigned long baud)
     if (_fd < 0) {
         printf("Port open failure!\n");
     }
+
+    serialFlush(_fd);
+
 }
  
+// TODO -- make it retrn something if there was anything 
+// available to clear 
 
+// add a flush command 
 
 void Serial_CAN::clear()
 {
