@@ -192,8 +192,9 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
         
         //while(canSerial->available())
         while(serialDataAvail(_fd))
-
         {
+
+            printf("data avail\n");
 
             //str_tmp[len++] = canSerial->read();
             str_tmp[len++] = serialGetchar(_fd); 
