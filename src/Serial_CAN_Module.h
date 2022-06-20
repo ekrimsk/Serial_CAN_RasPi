@@ -40,8 +40,7 @@
 class Serial_CAN
 {
 private:
-    
-    ~Serial_CAN();
+
     unsigned char cmdOk(char *cmd);
     unsigned char enterSettingMode();
     unsigned char exitSettingMode();
@@ -54,6 +53,8 @@ private:
 
 public:
     Serial_CAN();
+    ~Serial_CAN();
+    
     int _fd; // sderial file descirpt
     void begin(unsigned long baud);
     //void begin(int can_tx, int can_rx, unsigned long baud);
