@@ -197,16 +197,11 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
 
     //canSerial->println(cmd);
     serialPrintf(_fd, cmd);
-    // Do we need an EXTRA \n termination? look slike its already in the commands
-    // Unclear if need this 
-    //serialPrintf(_fd, "\n");
-
-
+ 
     while(1)
     {
         if(millis()-timer_s > 500)
         {
-            printf("COMMAND NOT OK\n");
             return 0;
         }
         
@@ -242,7 +237,6 @@ unsigned char Serial_CAN::canRate(unsigned char rate)
         sprintf(str_tmp, "AT+C=%d\r\n", rate);
     
     int ret = cmdOk(str_tmp);
-    printf("ppp\n");
     exitSettingMode();
     return ret;
 }
@@ -261,14 +255,12 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
     
     for(int i=0; i<5; i++)
     {
-        printf("opening with new baud...\n");
+        //printf("opening with new baud...\n");
         selfBaudRate(baud[i]);
         //canSerial->print("+++");
         serialPrintf(_fd, "+++");
-
         //delay(100);
         usleep(100000);
-        
         if(cmdOk("AT\r\n"))
         {
             //Serial.print("SERIAL BAUD RATE IS: ");
@@ -292,6 +284,8 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
         //Serial.println(baud[rate]);
         printf("Serial baudrate set to %d\n", baud[rate]);
         
+    } else {
+        printf("Serial baud error\n");
     }
     
     exitSettingMode();
