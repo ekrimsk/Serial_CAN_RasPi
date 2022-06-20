@@ -1,8 +1,11 @@
 #ifndef __SERIAL_CAN_MODULE_H__
 #define __SERIAL_CAN_MODULE_H__
 // ID3 ID2 ID1 ID0 EXT RTR DTA0 DTA1 DTA2 DTA3 DTA4 DTA5 DTA6 DTA7
-#include <Arduino.h>
+//#include <Arduino.h>
 #define uchar unsigned char
+
+// Erez added
+#include <unistd.h>
 
 
 #define CAN_RATE_5      1
@@ -29,9 +32,9 @@
 #define SERIAL_RATE_38400   2
 #define SERIAL_RATE_115200  4
 
-class Stream;
-class SoftwareSerial;
-class HardwareSerial;
+//class Stream;
+//class SoftwareSerial;
+//class HardwareSerial;
 
 class Serial_CAN
 {
@@ -40,17 +43,19 @@ private:
     unsigned char enterSettingMode();
     unsigned char exitSettingMode();
     void clear();
-    void selfBaudRate(unsigned long baud);
+    //void selfBaudRate(unsigned long baud);
     char str_tmp[100];
-    SoftwareSerial *softwareSerial = NULL;
-    HardwareSerial *hardwareSerial = NULL;
-    Stream *canSerial = NULL;
+    //SoftwareSerial *softwareSerial = NULL;
+    //HardwareSerial *hardwareSerial = NULL;
+    //Stream *canSerial = NULL;
 
 public:
     
-    void begin(int can_tx, int can_rx, unsigned long baud);
-    void begin(SoftwareSerial &serial, unsigned long baud);
-    void begin(HardwareSerial &serial, unsigned long baud);
+    int _fd; // sderial file descirpt
+    void begin(unsigned long baud);
+    //void begin(int can_tx, int can_rx, unsigned long baud);
+    //void begin(SoftwareSerial &serial, unsigned long baud);
+    //void begin(HardwareSerial &serial, unsigned long baud);
     unsigned char send(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *buf);
     unsigned char recv(unsigned long *id, uchar *buf);
     
@@ -60,8 +65,8 @@ public:
     unsigned char setMask(unsigned long *dta);
     unsigned char setFilt(unsigned long *dta);
     
-    unsigned char factorySetting();
-    void debugMode();
+    //unsigned char factorySetting();
+    //void debugMode();
 
 };
 #endif

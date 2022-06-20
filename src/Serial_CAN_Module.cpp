@@ -1,15 +1,33 @@
 // ID3 ID2 ID1 ID0 EXT RTR DTA0 DTA1 DTA2 DTA3 DTA4 DTA5 DTA6 DTA7
 
 #include <Serial_CAN_Module.h>
-#include <SoftwareSerial.h>
-#include <HardwareSerial.h>
+//#include <SoftwareSerial.h>
+//#include <HardwareSerial.h>
+
+#include <wiringSerial.h>   // wiringPi Serial 
+
+
+// See mapping to https://www.electronicwings.com/raspberry-pi/raspberry-pi-uart-communication-using-python-and-c
+
+void Serial_CAN::begin(unsigned long baud)
+{
+    //canSerial = 
+    _fd = serialOpen("/dev/ttyS0", baud); 
+}
+
+/*
+
 
 void Serial_CAN::begin(int can_tx, int can_rx, unsigned long baud)
 {
-    softwareSerial = new SoftwareSerial(can_tx, can_rx);
-    softwareSerial->begin(baud);
-    canSerial = softwareSerial;
+    //softwareSerial = new SoftwareSerial(can_tx, can_rx);
+    //softwareSerial->begin(baud);
+    //canSerial = softwareSerial;
+    
+
 }
+
+
 
 void Serial_CAN::begin(SoftwareSerial &serial, unsigned long baud)
 {
@@ -24,6 +42,7 @@ void Serial_CAN::begin(HardwareSerial &serial, unsigned long baud)
     hardwareSerial = &serial;
     canSerial = &serial;
 }
+*/
 
 unsigned char Serial_CAN::send(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *buf)
 {
@@ -42,10 +61,13 @@ unsigned char Serial_CAN::send(unsigned long id, uchar ext, uchar rtrBit, uchar 
         dta[6+i] = buf[i];
     }
     
+    /*
     for(int i=0; i<14; i++)
     {
         canSerial->write(dta[i]);
     }
+    */
+    write(_fd, dta, 14); // EREZ
 }
 
 
@@ -53,6 +75,8 @@ unsigned char Serial_CAN::send(unsigned long id, uchar ext, uchar rtrBit, uchar 
 // 1: get data
 unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
 {
+
+    /*
     if(canSerial->available())
     {
         unsigned long timer_s = millis();
@@ -62,7 +86,8 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
         
         while(1)
         {
-            while(canSerial->available())
+            //while(canSerial->available())
+            while(serialDataAvail(_fd)) // EREZ
             {
                 dta[len++] = canSerial->read();
                 if(len == 12)
@@ -102,8 +127,32 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
             
         }
     }
-    
-    return 0;
+    */
+
+    if (serialDataAvail(_fd))  { // EREZ 
+        // read 12 byes
+        uchar dta[20];
+        read(_fd, dta, 12); 
+        unsigned long __id = 0;
+                
+        for(int i=0; i<4; i++) // Store the id of the sender
+        {
+            __id <<= 8;
+            __id += dta[i];
+        }
+        
+        *id = __id;
+        
+        for(int i=0; i<8; i++) // Store the message in the buffer
+        {
+            buf[i] = dta[i+4];
+        }
+        return 1;
+
+    } else {
+        printf("NO SERIAL AVAILABLE");
+        return 0;
+    }
 }
 
 unsigned char Serial_CAN::cmdOk(char *cmd)
@@ -198,6 +247,7 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
     return ret;
 }
 
+/*
 void Serial_CAN::selfBaudRate(unsigned long baud)
 {
     if(softwareSerial)
@@ -209,6 +259,8 @@ void Serial_CAN::selfBaudRate(unsigned long baud)
         hardwareSerial->begin(baud);
     }
 }
+*/ 
+
 
 void Serial_CAN::clear()
 {
@@ -216,9 +268,12 @@ void Serial_CAN::clear()
     while(1)
     {
         if(millis()-timer_s > 50)return;
-        while(canSerial->available())
+        //while(canSerial->available())
+        while(serialDataAvail(_fd))
         {
-            canSerial->read();
+            //canSerial->read();
+            uchar* tmp;
+            read(_fd, tmp, 1);
             timer_s = millis();
         }
     }
@@ -226,7 +281,8 @@ void Serial_CAN::clear()
 
 unsigned char Serial_CAN::enterSettingMode()
 {
-    canSerial->print("+++");
+    //canSerial->print("+++");
+    serialPrintf(_fd, "+++"); // EREZ 
     clear();
     return 1;
 }
@@ -283,13 +339,15 @@ unsigned char Serial_CAN::setMask(unsigned long *dta)
         
         if(!cmdOk(str_tmp))
         {
-            Serial.print("mask fail - ");
-            Serial.println(i);
+            //Serial.print("mask fail - ");
+            //Serial.println(i);
+            printf("mask fail - %d\n", i);
             exitSettingMode();
             return 0;
         }
         clear();
-        delay(10);
+        //delay(10);
+        usleep(10000);
         //
     }
     exitSettingMode();
@@ -328,7 +386,8 @@ unsigned char Serial_CAN::setFilt(unsigned long *dta)
             return 0;
         }
         clear();
-        delay(10);
+        //delay(10);
+        usleep(10000);
         //
     }
     exitSettingMode();
@@ -339,6 +398,8 @@ unsigned char Serial_CAN::setFilt(unsigned long *dta)
 value	        0	    1	    2	    3   	4
 baud rate(b/s)	9600	19200	38400	57600	115200
 */
+
+/*
 unsigned char Serial_CAN::factorySetting()
 {
     // check baudrate
@@ -396,7 +457,10 @@ unsigned char Serial_CAN::factorySetting()
     
     return 1;
 }
+*/
 
+
+/*
 void Serial_CAN::debugMode()
 {
     while(Serial.available())
@@ -409,5 +473,6 @@ void Serial_CAN::debugMode()
         Serial.write(canSerial->read());
     }
 }
+*/
 
 // END FILE
