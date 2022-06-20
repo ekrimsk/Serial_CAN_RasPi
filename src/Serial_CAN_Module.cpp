@@ -146,9 +146,13 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
 
     int nbytes = serialDataAvail(_fd);
 
-    if (nbytes == 12)  { // EREZ 
+    if (nbytes >= 12)  { // EREZ 
+
+        if (nbytes > 12) {
+            printf("%d bytes AVAILABLE\n", nbytes);
+        }
         // read 12 byes
-        uchar dta[20];
+        uchar dta[12];
         read(_fd, dta, 12); 
         unsigned long __id = 0;
                 
@@ -164,9 +168,6 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
         {
             buf[i] = dta[i+4];
         }
-        return 1;
-    } else if (nbytes > 12) {
-        printf("%d bytes AVAILABLE\n", nbytes);
         return 1;
     } else if (nbytes > 0) {
         printf("ONLY %d bytes AVAILABLE\n", nbytes);    
