@@ -6,6 +6,7 @@
 
 // Erez added
 #include <unistd.h>
+#include <stdio.h> 
 
 
 #define CAN_RATE_5      1

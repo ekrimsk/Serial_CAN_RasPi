@@ -4,6 +4,7 @@
 //#include <SoftwareSerial.h>
 //#include <HardwareSerial.h>
 
+#include <wiringPi.h>
 #include <wiringSerial.h>   // wiringPi Serial 
 
 
@@ -248,8 +249,10 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
     
     if(ret)
     {
-        Serial.print("Serial baudrate set to ");
-        Serial.println(baud[rate]);
+        //Serial.print("Serial baudrate set to ");
+        //Serial.println(baud[rate]);
+        printf("Serial baudrate set to %d\n", baud[rate]);
+        
     }
     
     exitSettingMode();
