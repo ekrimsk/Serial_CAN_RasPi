@@ -177,7 +177,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
         {
 
             //str_tmp[len++] = canSerial->read();
-            str_tmp[len++] = serialGetChar(_fd); 
+            str_tmp[len++] = serialGetchar(_fd); 
 
             timer_s = millis();
         }
@@ -225,7 +225,7 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
     {
         selfBaudRate(baud[i]);
         //canSerial->print("+++");
-        serialPrintf("+++");
+        serialPrintf(_fd, "+++");
 
         //delay(100);
         usleep(100000);
