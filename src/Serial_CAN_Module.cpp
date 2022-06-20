@@ -168,7 +168,7 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
     } else if (nbytes > 12) {
         printf("%d bytes AVAILABLE\n", nbytes);
         return 1;
-     else if (nbytes > 0) {
+    } else if (nbytes > 0) {
         printf("ONLY %d bytes AVAILABLE\n", nbytes);    
         return 0;
     } else {
