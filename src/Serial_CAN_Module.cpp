@@ -9,6 +9,9 @@
 
 
 // See mapping to https://www.electronicwings.com/raspberry-pi/raspberry-pi-uart-communication-using-python-and-c
+Serial_CAN::Serial_CAN() {
+    printf("serial can constructor\n");
+}
 
 Serial_CAN::~Serial_CAN() {
     printf("serial can destructor\n");
