@@ -12,11 +12,18 @@
 
 void Serial_CAN::begin(unsigned long baud)
 {
+
+
+
     //canSerial = 
     _fd = serialOpen("/dev/ttyS0", baud); 
 
     if (_fd < 0) {
         printf("Port open failure!\n");
+    }
+
+    if (wiringPiSetup() == -1) {
+        printf("wiring pi failure\n");
     }
 }
 
