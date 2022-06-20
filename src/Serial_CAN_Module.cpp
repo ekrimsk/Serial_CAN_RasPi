@@ -44,7 +44,7 @@ void Serial_CAN::begin(HardwareSerial &serial, unsigned long baud)
 }
 */
 
-unsigned char Serial_CAN::send(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *buf)
+unsigned char Serial_CAN::sendMsfBuf(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *buf)
 {
     unsigned char dta[14] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     
@@ -161,7 +161,8 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
     unsigned long timer_s = millis();
     unsigned char len = 0;
 
-    canSerial->println(cmd);
+    //canSerial->println(cmd);
+    serialPrintf(_fd, cmd);
     while(1)
     {
         if(millis()-timer_s > 500)
@@ -169,10 +170,14 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
             return 0;
         }
         
-        while(canSerial->available())
+        //while(canSerial->available())
+        while(serialDataAvail(_fd))
+
         {
 
-            str_tmp[len++] = canSerial->read();
+            //str_tmp[len++] = canSerial->read();
+            str_tmp[len++] = serialGetChar(_fd); 
+
             timer_s = millis();
         }
 
@@ -218,13 +223,17 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
     for(int i=0; i<5; i++)
     {
         selfBaudRate(baud[i]);
-        canSerial->print("+++");
-        delay(100);
+        //canSerial->print("+++");
+        serialPrintf("+++");
+
+        //delay(100);
+        usleep(100000);
         
         if(cmdOk("AT\r\n"))
         {
-            Serial.print("SERIAL BAUD RATE IS: ");
-            Serial.println(baud[i]);
+            //Serial.print("SERIAL BAUD RATE IS: ");
+            //Serial.println(baud[i]);
+            printf("SERIAL BAUD RATE IS: %d\n", baud[i]);
             baudNow = i;
             break;     
         }
@@ -247,9 +256,10 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
     return ret;
 }
 
-/*
+
 void Serial_CAN::selfBaudRate(unsigned long baud)
 {
+    /*
     if(softwareSerial)
     {
         softwareSerial->begin(baud);
@@ -258,8 +268,11 @@ void Serial_CAN::selfBaudRate(unsigned long baud)
     {
         hardwareSerial->begin(baud);
     }
+    */
+    serialClose(_fd);
+    _fd = serialOpen("/dev/ttyS0", baud); 
 }
-*/ 
+ 
 
 
 void Serial_CAN::clear()
