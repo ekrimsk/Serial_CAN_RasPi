@@ -179,7 +179,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
     serialPrintf(_fd, cmd);
     // Do we need an EXTRA \n termination? look slike its already in the commands
     // Unclear if need this 
-    serialPrintf(_fd, "\n");
+    //serialPrintf(_fd, "\n");
 
 
     while(1)
@@ -312,8 +312,9 @@ void Serial_CAN::clear()
         while(serialDataAvail(_fd))
         {
             //canSerial->read();
-            uchar* tmp;
-            read(_fd, tmp, 1);
+            //uchar* tmp;
+            //read(_fd, tmp, 1);
+            serialGetchar(_fd);
             timer_s = millis();
         }
     }
