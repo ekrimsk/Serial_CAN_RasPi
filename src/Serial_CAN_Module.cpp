@@ -10,6 +10,10 @@
 
 // See mapping to https://www.electronicwings.com/raspberry-pi/raspberry-pi-uart-communication-using-python-and-c
 
+Serial_CAN::~Serial_CAN() {
+    printf("serial can destructor\n");
+}
+
 void Serial_CAN::begin(unsigned long baud)
 {
 
@@ -58,6 +62,8 @@ void Serial_CAN::begin(HardwareSerial &serial, unsigned long baud)
     canSerial = &serial;
 }
 */
+
+
 
 unsigned char Serial_CAN::sendMsgBuf(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *buf)
 {
