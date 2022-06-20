@@ -45,7 +45,7 @@ void Serial_CAN::begin(HardwareSerial &serial, unsigned long baud)
 }
 */
 
-unsigned char Serial_CAN::sendMsfBuf(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *buf)
+unsigned char Serial_CAN::sendMsgBuf(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *buf)
 {
     unsigned char dta[14] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     
