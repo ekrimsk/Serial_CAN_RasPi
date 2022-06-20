@@ -40,6 +40,7 @@
 class Serial_CAN
 {
 private:
+    ~Serial_CAN();
     unsigned char cmdOk(char *cmd);
     unsigned char enterSettingMode();
     unsigned char exitSettingMode();
