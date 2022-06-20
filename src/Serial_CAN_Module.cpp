@@ -162,8 +162,15 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
     unsigned long timer_s = millis();
     unsigned char len = 0;
 
+    // All commands EXCEPT +++ should end in '\n'
+
     //canSerial->println(cmd);
     serialPrintf(_fd, cmd);
+    // Do we need an EXTRA \n termination? look slike its already in the commands
+    // Unclear if need this 
+    serialPrintf('\n');
+
+
     while(1)
     {
         if(millis()-timer_s > 500)
@@ -341,6 +348,7 @@ unsigned char Serial_CAN::setMask(unsigned long *dta)
     {
         make8zerochar(8, __str, dta[1+2*i]);
         //Serial.println(__str);
+        printf(__str); printf("\n"); 
         sprintf(str_tmp, "AT+M=[%d][%d][", i, dta[2*i]);
         for(int i=0; i<8; i++)
         {
@@ -352,6 +360,7 @@ unsigned char Serial_CAN::setMask(unsigned long *dta)
         str_tmp[23] = '\0';
         
         //Serial.println(str_tmp);
+        printf(str_tmp); printf('\n');
         
         if(!cmdOk(str_tmp))
         {
