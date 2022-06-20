@@ -186,6 +186,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
     {
         if(millis()-timer_s > 500)
         {
+            printf("COMMAND NOT OK\n");
             return 0;
         }
         
@@ -241,6 +242,7 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
     
     for(int i=0; i<5; i++)
     {
+        printf("opening with new baud...\n");
         selfBaudRate(baud[i]);
         //canSerial->print("+++");
         serialPrintf(_fd, "+++");
