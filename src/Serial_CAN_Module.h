@@ -62,7 +62,7 @@ public:
     //void begin(HardwareSerial &serial, unsigned long baud);
     unsigned char sendMsgBuf(unsigned long id, uchar ext, uchar rtrBit, uchar len, const uchar *buf);
     unsigned char recv(unsigned long *id, uchar *buf);
-    unsigned char block_recv(unsigned long *id, uchar *buf);
+    unsigned char block_recv(unsigned long *id, uchar *buf, int delay_ms);
     
     unsigned char canRate(unsigned char rate);
     unsigned char baudRate(unsigned char rate);

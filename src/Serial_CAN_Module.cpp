@@ -188,15 +188,19 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
 }
 
 
-unsigned char Serial_CAN::block_recv(unsigned long *id, uchar *buf)
+// need a max time here otherwise wont know if error 
+unsigned char Serial_CAN::block_recv(unsigned long *id, uchar *buf, int delay_ms)
 {
     // TODO -- can add a debug response variable -- true if we had to wait 
+
+
+    unsigned long timer_s = millis();
 
     // Wait for enough data to become available 
     int nbytes = serialDataAvail(_fd);
     unsigned char retval = 0;
 
-    while (nbytes < 12) { 
+    while ((nbytes < 12) && (millis() - timer_s < delay_ms)) { 
         // do nothing 
         nbytes = serialDataAvail(_fd); 
         //printf("AA: nbytes %d\n", nbytes);
