@@ -193,7 +193,7 @@ unsigned char Serial_CAN::block_recv(unsigned long *id, uchar *buf)
 
     // Wait for enough data to become available 
     int nbytes = serialDataAvail(_fd);
-    unsigned char retval = 0
+    unsigned char retval = 0;
 
     while (nbytes < 12) { 
         // do nothing 
