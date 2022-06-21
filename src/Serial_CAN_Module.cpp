@@ -10,7 +10,7 @@
 
 // See mapping to https://www.electronicwings.com/raspberry-pi/raspberry-pi-uart-communication-using-python-and-c
 Serial_CAN::Serial_CAN() {
-    printf("serial can constructor\n");
+
 }
 
 Serial_CAN::~Serial_CAN() {
@@ -186,6 +186,29 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
         return 0;
     }
 }
+
+
+unsigned char Serial_CAN::block_recv(unsigned long *id, uchar *buf)
+{
+
+    // Wait for enough data to become available 
+    int nbytes = serialDataAvail(_fd);
+    unsigned char retval = 0
+
+    while (nbytes < 12) { 
+        // do nothing 
+        nbytes = serialDataAvail(_fd); 
+    }
+
+    while(nbytes >= 12) { 
+        retval = recv(id, buf); 
+        nbytes = serialDataAvail(_fd); 
+    }
+    return retval;
+}
+    // Read until less than twelve 
+
+
 
 unsigned char Serial_CAN::cmdOk(char *cmd)
 {
