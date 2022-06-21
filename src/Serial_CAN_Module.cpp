@@ -198,11 +198,14 @@ unsigned char Serial_CAN::block_recv(unsigned long *id, uchar *buf)
     while (nbytes < 12) { 
         // do nothing 
         nbytes = serialDataAvail(_fd); 
+        printf("AA: nbytes %d\n", nbytes);
     }
 
     while(nbytes >= 12) { 
         retval = recv(id, buf); 
         nbytes = serialDataAvail(_fd); 
+        printf("BB: nbytes %d\n", nbytes);
+
     }
     return retval;
 }
