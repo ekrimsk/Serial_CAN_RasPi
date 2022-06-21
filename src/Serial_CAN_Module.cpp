@@ -190,6 +190,7 @@ unsigned char Serial_CAN::recv(unsigned long *id, uchar *buf)
 
 unsigned char Serial_CAN::block_recv(unsigned long *id, uchar *buf)
 {
+    // TODO -- can add a debug response variable -- true if we had to wait 
 
     // Wait for enough data to become available 
     int nbytes = serialDataAvail(_fd);
@@ -198,7 +199,7 @@ unsigned char Serial_CAN::block_recv(unsigned long *id, uchar *buf)
     while (nbytes < 12) { 
         // do nothing 
         nbytes = serialDataAvail(_fd); 
-        printf("AA: nbytes %d\n", nbytes);
+        //printf("AA: nbytes %d\n", nbytes);
     }
 
     while(nbytes >= 12) { 
