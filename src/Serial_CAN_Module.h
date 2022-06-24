@@ -34,8 +34,8 @@
 #define SERIAL_RATE_115200  4
 
 
-//#define SERIAL_PORT "/dev/serial0"
-#define SERIAL_PORT "/dev/ttyAMA0"
+#define SERIAL_PORT "/dev/serial0"
+//#define SERIAL_PORT "/dev/ttyAMA0"
 
 
 //class Stream;
