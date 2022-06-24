@@ -275,7 +275,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
 
             //str_tmp[len++] = canSerial->read();
             str_tmp[len++] = serialGetchar(_fd); 
-            printf("GOT a char %c at len %d\n", str_tmp[len], (int) len);
+            printf("GOT a char %c at len %d\n", str_tmp[len-1], (int) len);
 
             timer_s = millis();
         }
