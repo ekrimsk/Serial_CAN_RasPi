@@ -15,6 +15,9 @@ Serial_CAN::Serial_CAN() {
 
 Serial_CAN::~Serial_CAN() {
     printf("serial can destructor\n");
+    serialFlush(_fd);
+    printf("Closing serial port\n"); 
+    serialClose(_fd);
 }
 
 void Serial_CAN::begin(unsigned long baud)
@@ -36,6 +39,35 @@ void Serial_CAN::begin(unsigned long baud)
 
     serialFlush(_fd);
 }
+
+
+// TODO -- If need add a "Reset" Function and see how long it takes 
+// If < 400 us or so, then reseting on failure would be viable 
+
+bool Serial_CAN::reset() {
+{
+    printf("Resetting serial\n");
+    uint32_t tic = micros();
+    bool retval = true;
+    serialClose(_fd); 
+    _fd = serialOpen("/dev/ttyS0", SERIAL_RATE_115200); 
+
+    if (_fd < 0) {
+        printf("Port open failure!\n");
+        retval = false;
+    }
+
+    serialFlush(_fd);
+
+    // Add print timing 
+    uint32_t toc = micros()
+    printf("Serial Reset time %ju\n", (uintmax_t) (toc -  tic));
+}
+
+
+
+
+
 
 /*
 

@@ -54,6 +54,8 @@ private:
 public:
     Serial_CAN();
     ~Serial_CAN();
+
+    bool reset(void);
     
     int _fd; // sderial file descirpt
     void begin(unsigned long baud);
