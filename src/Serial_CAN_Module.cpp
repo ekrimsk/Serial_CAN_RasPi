@@ -265,6 +265,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
     {
         if(millis()-timer_s > 500)
         {
+            printf("CMD OK timed out with %d bytes\n", (int) len);
             return 0;
         }
         
@@ -281,7 +282,11 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
         if(len >= 4 && str_tmp[len-1] == '\n' && str_tmp[len-2] == '\r' && str_tmp[len-3] == 'K' && str_tmp[len-4] == 'O')
         {
             clear();
+            printf("GO OK\n");
             return 1;        
+        } else if (len >= 4 && str_tmp[len-1] == 'L' && str_tmp[len-2] == 'I' && str_tmp[len-3] == 'A' && str_tmp[len-4] == 'F') {
+            printf("GOT FAIL\n");
+            return 0;
         }
         
     }
