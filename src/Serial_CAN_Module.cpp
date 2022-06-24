@@ -321,7 +321,11 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
         //printf("opening with new baud...\n");
         selfBaudRate(baud[i]);
         //canSerial->print("+++");
-        serialPrintf(_fd, "+++");
+        //serialPrintf(_fd, "+++"); // basically, enter setting modd 
+
+        enterSettingMode();
+
+
         //delay(100);
         usleep(100000);
         if(cmdOk("AT\r\n"))
@@ -333,6 +337,9 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
             break;     
         }
     }
+
+
+    // AT+S is the set baud success 
     
     sprintf(str_tmp, "AT+S=%d\r\n", rate);
     cmdOk(str_tmp);
