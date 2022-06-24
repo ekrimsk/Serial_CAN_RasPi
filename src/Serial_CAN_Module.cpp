@@ -285,7 +285,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
         // somehow 
         //if(len >= 4 && str_tmp[len-1] == '\n' && str_tmp[len-2] == '\r' && str_tmp[len-3] == 'K' && str_tmp[len-4] == 'O')
         //if(len >= 3 && str_tmp[len-1] == '\r' && str_tmp[len-2] == 'K' && str_tmp[len-3] == 'O')
-        if(len >= 2 str_tmp[len-1] == 'K' && str_tmp[len-2] == 'O')
+        if(len >= 2 && str_tmp[len-1] == 'K' && str_tmp[len-2] == 'O')
         {
             int foo = serialDataAvail(_fd);
             clear();
