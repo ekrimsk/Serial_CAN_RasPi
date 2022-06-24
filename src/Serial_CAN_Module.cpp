@@ -419,7 +419,7 @@ unsigned char Serial_CAN::enterSettingMode()
     
 
     // Try here
-    usleep(6000000);
+    usleep(6000);
 
 
     clear();
