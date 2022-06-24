@@ -248,7 +248,7 @@ unsigned char Serial_CAN::block_recv(unsigned long *id, uchar *buf, int delay_ms
 }
     // Read until less than twelve 
 
-
+// send command and then checks response 
 
 unsigned char Serial_CAN::cmdOk(char *cmd)
 {
@@ -413,7 +413,19 @@ unsigned char Serial_CAN::enterSettingMode()
 {
     //canSerial->print("+++");
     serialPrintf(_fd, "+++"); // EREZ 
+
+
+
+    
+
+    // Try here
+    usleep(6000000);
+
+
     clear();
+
+
+
     return 1;
 }
 
