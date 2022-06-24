@@ -265,7 +265,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
     {
         if(millis()-timer_s > 500)
         {
-            printf("CMD OK timed out with %d bytes\n", (int) len);
+            printf("CMD OK timed =========== out with %d bytes\n", (int) len);
             return 0;
         }
         
@@ -284,7 +284,8 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
         // Looks like sometimes the \n doesnt get sent soon enough 
         // somehow 
         //if(len >= 4 && str_tmp[len-1] == '\n' && str_tmp[len-2] == '\r' && str_tmp[len-3] == 'K' && str_tmp[len-4] == 'O')
-        if(len >= 3 && str_tmp[len-1] == '\r' && str_tmp[len-2] == 'K' && str_tmp[len-3] == 'O')
+        //if(len >= 3 && str_tmp[len-1] == '\r' && str_tmp[len-2] == 'K' && str_tmp[len-3] == 'O')
+        if(len >= 2 str_tmp[len-1] == 'K' && str_tmp[len-2] == 'O')
         {
             int foo = serialDataAvail(_fd);
             clear();
