@@ -61,7 +61,7 @@ bool Serial_CAN::reset()
 
     // Add print timing 
     unsigned long toc = micros();
-    printf("Serial Reset time %ju\n", (uintmax_t) (toc -  tic));
+    printf("Serial Reset time %lu\n", (toc -  tic));
 }
 
 
