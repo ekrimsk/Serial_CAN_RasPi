@@ -60,7 +60,7 @@ bool Serial_CAN::reset()
     serialFlush(_fd);
 
     // Add print timing 
-    unsigned long toc = micros()
+    unsigned long toc = micros();
     printf("Serial Reset time %ju\n", (uintmax_t) (toc -  tic));
 }
 
