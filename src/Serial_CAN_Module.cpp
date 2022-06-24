@@ -280,7 +280,11 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
             timer_s = millis();
         }
 
-        if(len >= 4 && str_tmp[len-1] == '\n' && str_tmp[len-2] == '\r' && str_tmp[len-3] == 'K' && str_tmp[len-4] == 'O')
+
+        // Looks like sometimes the \n doesnt get sent soon enough 
+        // somehow 
+        //if(len >= 4 && str_tmp[len-1] == '\n' && str_tmp[len-2] == '\r' && str_tmp[len-3] == 'K' && str_tmp[len-4] == 'O')
+        if(len >= 3 && str_tmp[len-1] == '\r' && str_tmp[len-2] == 'K' && str_tmp[len-3] == 'O')
         {
             int foo = serialDataAvail(_fd);
             clear();
@@ -418,7 +422,7 @@ void Serial_CAN::clear()
             //uchar* tmp;
             //read(_fd, tmp, 1);
             char tmp_char = serialGetchar(_fd);
-            printf("CLEEAD %c\n", tmp_char);
+            printf("CLEAD %c\n", tmp_char);
             timer_s = millis();
         }
     }
