@@ -417,7 +417,8 @@ void Serial_CAN::clear()
             //canSerial->read();
             //uchar* tmp;
             //read(_fd, tmp, 1);
-            serialGetchar(_fd);
+            char tmp_char = serialGetchar(_fd);
+            printf("CLEEAD %c\n", tmp_char);
             timer_s = millis();
         }
     }
@@ -426,6 +427,9 @@ void Serial_CAN::clear()
 unsigned char Serial_CAN::enterSettingMode()
 {
     //canSerial->print("+++");
+
+    printf("Enteting Settings Mode\n");
+
     serialPrintf(_fd, "+++"); // EREZ 
 
 
