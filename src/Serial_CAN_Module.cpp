@@ -275,6 +275,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
 
             //str_tmp[len++] = canSerial->read();
             str_tmp[len++] = serialGetchar(_fd); 
+            printf("GOT a char %c at len %d\n", str_tmp[len], (int) len);
 
             timer_s = millis();
         }
@@ -444,7 +445,9 @@ unsigned char Serial_CAN::enterSettingMode()
 unsigned char Serial_CAN::exitSettingMode()
 {
     clear();
-    int ret = cmdOk((char*)"AT+Q\r\n");
+    //int ret = cmdOk((char*)"AT+Q\r\n");
+    int ret = cmdOk("AT+Q\r\n");
+
     clear();
 
     if (ret==0) {
