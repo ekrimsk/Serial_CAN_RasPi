@@ -446,6 +446,8 @@ unsigned char Serial_CAN::exitSettingMode()
 {
     clear();
     //int ret = cmdOk((char*)"AT+Q\r\n");
+
+    printf("Exiting settings\n");
     int ret = cmdOk("AT+Q\r\n");
 
     clear();
