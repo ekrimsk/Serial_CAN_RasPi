@@ -26,7 +26,7 @@ void Serial_CAN::begin(unsigned long baud)
 
 
     //canSerial = 
-    _fd = serialOpen("/dev/ttyS0", baud); 
+    _fd = serialOpen(SERIAL_PORT, baud); 
 
     if (_fd < 0) {
         printf("Port open failure!\n");
@@ -50,7 +50,7 @@ bool Serial_CAN::reset()
     unsigned long tic = micros();
     bool retval = true;
     serialClose(_fd); 
-    _fd = serialOpen("/dev/ttyS0", SERIAL_RATE_115200); 
+    _fd = serialOpen(SERIAL_PORT, SERIAL_RATE_115200); 
 
     if (_fd < 0) {
         printf("Port open failure!\n");
@@ -369,7 +369,7 @@ void Serial_CAN::selfBaudRate(unsigned long baud)
     }
     */
     serialClose(_fd);
-    _fd = serialOpen("/dev/ttyS0", baud); 
+    _fd = serialOpen(SERIAL_PORT, baud); 
 
     if (_fd < 0) {
         printf("Port open failure!\n");
