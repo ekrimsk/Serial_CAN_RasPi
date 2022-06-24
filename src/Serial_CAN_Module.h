@@ -49,7 +49,6 @@ private:
     unsigned char cmdOk(char *cmd);
     unsigned char enterSettingMode();
     unsigned char exitSettingMode();
-    void clear();
     void selfBaudRate(unsigned long baud);
     char str_tmp[100];
     //SoftwareSerial *softwareSerial = NULL;
@@ -59,6 +58,12 @@ private:
 public:
     Serial_CAN();
     ~Serial_CAN();
+
+
+
+    void clear();  // erez made public for some testing
+
+
 
     bool reset(void);
     

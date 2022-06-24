@@ -315,7 +315,10 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
     int baudNow = 0;
     
     if(rate == 3)return 0;
-    
+
+
+    // Loops through all possible bauds and checks for response 
+    // This loop figures out what baud its at right now 
     for(int i=0; i<5; i++)
     {
         //printf("opening with new baud...\n");
@@ -332,7 +335,7 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
         {
             //Serial.print("SERIAL BAUD RATE IS: ");
             //Serial.println(baud[i]);
-            printf("SERIAL BAUD RATE IS: %d\n", baud[i]);
+            printf("Got baud response at: %d\n", baud[i]);
             baudNow = i;
             break;     
         }
@@ -340,9 +343,12 @@ unsigned char Serial_CAN::baudRate(unsigned char rate)
 
 
     // AT+S is the set baud success 
-    
+    // Thi sets the baud using whatever baud its currently responsing too
     sprintf(str_tmp, "AT+S=%d\r\n", rate);
     cmdOk(str_tmp);
+
+
+
     
     selfBaudRate(baud[rate]);
     
@@ -418,10 +424,7 @@ unsigned char Serial_CAN::enterSettingMode()
 
     
 
-    // Try here
-    usleep(6000);
-
-
+    // CLEAR TAKES 50 ms anyway 
     clear();
 
 
@@ -429,6 +432,8 @@ unsigned char Serial_CAN::enterSettingMode()
     return 1;
 }
 
+
+// Should return it to noromal mode 
 unsigned char Serial_CAN::exitSettingMode()
 {
     clear();
