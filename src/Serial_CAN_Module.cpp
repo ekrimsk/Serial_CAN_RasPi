@@ -44,10 +44,10 @@ void Serial_CAN::begin(unsigned long baud)
 // TODO -- If need add a "Reset" Function and see how long it takes 
 // If < 400 us or so, then reseting on failure would be viable 
 
-bool Serial_CAN::reset() {
+bool Serial_CAN::reset() 
 {
     printf("Resetting serial\n");
-    uint32_t tic = micros();
+    unsigned long tic = micros();
     bool retval = true;
     serialClose(_fd); 
     _fd = serialOpen("/dev/ttyS0", SERIAL_RATE_115200); 
@@ -60,7 +60,7 @@ bool Serial_CAN::reset() {
     serialFlush(_fd);
 
     // Add print timing 
-    uint32_t toc = micros()
+    unsigned long toc = micros()
     printf("Serial Reset time %ju\n", (uintmax_t) (toc -  tic));
 }
 
