@@ -278,6 +278,19 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
             printf("GOT a char %c at len %d\n", str_tmp[len-1], (int) len);
 
             timer_s = millis();
+
+
+            if(len >= 2 && str_tmp[len-1] == 'K' && str_tmp[len-2] == 'O')
+            {
+                int foo = serialDataAvail(_fd);
+                clear();
+                printf("GOT OK\n");
+                printf("BYTES LEFT AND CLEARED %d\n", foo);
+                return 1;        
+            } else if (len >= 4 && str_tmp[len-1] == 'L' && str_tmp[len-2] == 'I' && str_tmp[len-3] == 'A' && str_tmp[len-4] == 'F') {
+                printf("GOT FAIL\n");
+                return 0;
+            }
         }
 
 
@@ -285,17 +298,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
         // somehow 
         //if(len >= 4 && str_tmp[len-1] == '\n' && str_tmp[len-2] == '\r' && str_tmp[len-3] == 'K' && str_tmp[len-4] == 'O')
         //if(len >= 3 && str_tmp[len-1] == '\r' && str_tmp[len-2] == 'K' && str_tmp[len-3] == 'O')
-        if(len >= 2 && str_tmp[len-1] == 'K' && str_tmp[len-2] == 'O')
-        {
-            int foo = serialDataAvail(_fd);
-            clear();
-            printf("GOT OK\n");
-            printf("BYTES LEFT AND CLEARED %d\n", foo);
-            return 1;        
-        } else if (len >= 4 && str_tmp[len-1] == 'L' && str_tmp[len-2] == 'I' && str_tmp[len-3] == 'A' && str_tmp[len-4] == 'F') {
-            printf("GOT FAIL\n");
-            return 0;
-        }
+      
         
     }
 }
