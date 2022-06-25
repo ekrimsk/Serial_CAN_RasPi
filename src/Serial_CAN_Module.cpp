@@ -263,7 +263,7 @@ unsigned char Serial_CAN::cmdOk(char *cmd)
  
     while(1)
     {
-        if(millis()-timer_s > 5000)
+        if(millis()-timer_s > 11000)
         {
             printf("CMD OK timed =========== out with %d bytes\n", (int) len);
             return 0;
