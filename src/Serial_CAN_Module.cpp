@@ -9,6 +9,8 @@
 
 
 // See mapping to https://www.electronicwings.com/raspberry-pi/raspberry-pi-uart-communication-using-python-and-c
+
+// https://raspberrypi.stackexchange.com/questions/104464/where-are-the-uarts-on-the-raspberry-pi-4
 Serial_CAN::Serial_CAN() {
 
 }
